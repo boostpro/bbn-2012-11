@@ -60,6 +60,16 @@ void operator delete(void* p) throw()
     std::free(q);
 }
 
+void* operator new  [](std::size_t size) throw(std::bad_alloc)
+{
+    return operator new(size);
+}
+
+void operator delete[](void* ptr) throw()
+{
+    return operator delete(ptr);
+}
+
 namespace eh_test {
 
 template <class F1>
@@ -86,18 +96,8 @@ void eh_test( F1 op)
 
 void setup()
 {
-    // Make sure array new/delete is using the plain one.  Otherwise
-    // we'll need to replace array new/delete[] also..
-    {
-        int saved = disable_exceptions();
-        
-        std::size_t allocs_before = allocs;
-        int* p =  new int[4];
-        assert(allocs > allocs_before);
-        delete[] p;
-        
-        enable_exceptions(saved);
-    }
+    // Once needed this for checking that array delete dispatched to
+    // the non-array version.  We handle that ourselves now.
 }
 
 }
