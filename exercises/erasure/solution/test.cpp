@@ -18,30 +18,15 @@ value dave()
     me["registered"] = true;           //   "registered": true,                        
     me["catchphrase"] = null();        //   "catchphrase": null
     array my_interests;                //   "interests": [
-    my_interests.reserve(10);
-    LOG("### A");
-    my_interests.push_back("Reading"); //       "Reading",       
-    LOG("### B");
-    my_interests.push_back("Biking");  //       "Biking",        
-    LOG("### C");
-    my_interests.push_back("Hacking"); //       "Hacking"                                  
-    LOG("### D");
-    value interests = my_interests;
-    LOG("### DD");
-    value dinterests;
-    LOG("### DDD");
-    dinterests = interests;
-    LOG("### E");
-    me["interests"];
-    LOG("### F");
-    me["interests"] = interests;    //     ]                          
-    LOG("### G");
+    my_interests.push_back("Reading"); //       "Reading", 
+    my_interests.push_back("Biking");  //       "Biking",
+    my_interests.push_back("Hacking"); //       "Hacking"                                    
+    me["interests"] = my_interests;    //     ]
                                        // }                              
     return me;
 }
 
 int main()
 {
-    logging = true;
     std::cout << dave() << std::endl;
 }
