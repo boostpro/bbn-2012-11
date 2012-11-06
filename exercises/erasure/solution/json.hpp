@@ -17,10 +17,27 @@ bool logging = false;
 
 #ifndef NDEBUG
 # include <iostream>
-# define LOG(x) do { if (logging) std::cout << x << std::endl; } while(0)
+# define LOG(x) (logging ? std::cout << "{ " << x << " }" << std::endl : std::cout)
 #else
 # define LOG(x)
 #endif
+
+template <class T>
+struct displayer
+{
+    displayer(T const& x) : x(x) {}
+    T const& x;
+    friend std::ostream& operator<<(std::ostream& os, displayer const& a)
+    {
+        return os << "<" << a.x << ">" << "(" << typeid(T).name() << "@" << &a.x << ")";
+    }
+};
+
+template <class T>
+displayer<T> display(T const& x)
+{
+    return displayer<T>(x);
+}
 
 namespace json {
 
