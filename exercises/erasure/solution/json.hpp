@@ -46,8 +46,10 @@ struct value;
 typedef 
   std::map<std::string, value>
 object;
+std::ostream& operator<<(std::ostream&, object const&);
 
 typedef std::vector<value> array;
+std::ostream& operator<<(std::ostream&, array const&);
 
 typedef std::string         string;
 typedef long double         number;
@@ -159,7 +161,7 @@ inline std::ostream& operator<<(
 // Print the elements of container x, bracketed by the open and
 // close text, and separated by commas.
 template <class Container>
-void print(
+std::ostream& print(
     std::ostream& os, Container const& x,
     char const* open = "[ ", char const* close = " ]")
 {
@@ -170,9 +172,18 @@ void print(
         os << prefix << *p;
         prefix = ", ";
     }
-    os << close;
+    return os << close;
 }
 
+std::ostream& operator<<(std::ostream& os, object const& obj)
+{
+    return print(os, obj, "{ ", " }");
+}
+
+std::ostream& operator<<(std::ostream& os, array const& a)
+{
+    return print(os, a);
+}
 }
 
 #endif // DWA2012114_HPP
