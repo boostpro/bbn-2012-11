@@ -95,6 +95,7 @@ struct test_op
     std::size_t dim1,dim2;
 };
 
+#include <iostream>
 int main()
 {
     eh_test::setup();
@@ -108,6 +109,9 @@ int main()
     // allocators that only return memory to the global heap upon
     // termination.
     assert( eh_test::allocs == 0 );
+    std::cout
+        << "congratulations, you don't have a bug (that I could detect)!"
+        << std::endl;
 }
 
 #endif // TEST_MAIN_DWA2010422_HPP
