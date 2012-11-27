@@ -15,6 +15,7 @@
 #include <utility>
 #include <map>
 #include <iostream>
+#include <cassert>
 
 namespace mpl = boost::mpl;
 
@@ -64,13 +65,25 @@ struct knights_tour
 
     static int next_move(vertex_descriptor const v, int i)
     {
-        while (--i >= 0)
+        // std::cout << "next_move(" << Rows << "," << Cols << ") " << pos_name(v) << ", " << i << " = ";
+
+        assert(i >= 0);
+        
+        int const x0 = x_coord(v);
+        int const y0 = y_coord(v);
+        
+        while (i-- > 0)
         {
-            int x = x_coord(v) + knight_moves[i][0];
-            int y = y_coord(v) + knight_moves[i][0];
+            
+            int const x = x0 + knight_moves[i][0];
+            int const y = y0 + knight_moves[i][1];
+
+            // std::cout << "    " << i << ": " << x << ", " << y << std::endl;
+
             if (x >= 0 && x < Rows && y >= 0 && y < Cols)
                 break;
         }
+        // std::cout << "<" << i << ">" << std::endl;
         return i;
     }
     
@@ -123,7 +136,7 @@ struct knights_tour
     {
         return std::make_pair(
             out_edge_iterator(edge_iter_base(u, 8)),
-            out_edge_iterator(edge_iter_base(u)));
+            out_edge_iterator(edge_iter_base(u, 0)));
     }
     
     friend degree_size_type
@@ -174,7 +187,21 @@ int main()
     typedef knights_tour<8,8> tour;
     BOOST_CONCEPT_ASSERT((boost::IncidenceGraphConcept<tour>));
     BOOST_CONCEPT_ASSERT((boost::VertexListGraphConcept<tour>));
-    
+
+    tour g;
+    BOOST_FOREACH(tour::vertex_descriptor v, vertices(g))
+    {
+        std::cout << g.pos_name(v) << ": ";
+        char const* prefix = "";
+        BOOST_FOREACH(tour::edge_descriptor e, out_edges(v,g))
+        {
+            std::cout << prefix << g.pos_name(target(e,g));
+            prefix = ", ";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << "======================" << std::endl;
+                  
     std::map<tour::vertex_descriptor,tour::vertex_descriptor> predecessors;
     std::map<tour::vertex_descriptor,unsigned> distances;
     
