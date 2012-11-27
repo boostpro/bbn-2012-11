@@ -1,7 +1,9 @@
 // Copyright David Abrahams 2008. Distributed under the Boost
 // Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
-#define _GLIBCXX_DEBUG 1
+
+// A bug somewhere outside this code makes this trigger assertions
+//#define _GLIBCXX_DEBUG 1
 #include "boost/regex.hpp"
 #include "boost/lambda/lambda.hpp"
 #include "boost/lambda/if.hpp"
@@ -57,7 +59,7 @@ void print_us_dates_as_euro(std::string const& s)
     
     using namespace boost::lambda;
 
-    int const matches[] = {1,2,3};
+    int const matches[] = {2,1,3};
     int i = 0;
     std::for_each(
         boost::sregex_token_iterator(s.begin(), s.end(), date, matches),
