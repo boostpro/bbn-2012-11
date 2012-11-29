@@ -65,8 +65,6 @@ struct knights_tour
 
     static int next_move(vertex_descriptor const v, int i)
     {
-        // std::cout << "next_move(" << Rows << "," << Cols << ") " << pos_name(v) << ", " << i << " = ";
-
         assert(i >= 0);
         
         int const x0 = x_coord(v);
@@ -78,12 +76,9 @@ struct knights_tour
             int const x = x0 + knight_moves[i][0];
             int const y = y0 + knight_moves[i][1];
 
-            // std::cout << "    " << i << ": " << x << ", " << y << std::endl;
-
             if (x >= 0 && x < Rows && y >= 0 && y < Cols)
                 break;
         }
-        // std::cout << "<" << i << ">" << std::endl;
         return i;
     }
     
